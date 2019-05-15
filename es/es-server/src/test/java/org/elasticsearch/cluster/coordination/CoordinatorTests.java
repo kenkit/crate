@@ -76,12 +76,13 @@ import org.elasticsearch.test.ESTestCase;
 import org.elasticsearch.test.MockLogAppender;
 import org.elasticsearch.test.disruption.DisruptableMockTransport;
 import org.elasticsearch.test.disruption.DisruptableMockTransport.ConnectionStatus;
+import org.elasticsearch.test.junit.annotations.TestLogging;
 import org.elasticsearch.transport.TransportService;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsCollectionContaining;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -151,7 +152,7 @@ import static org.hamcrest.Matchers.startsWith;
 /**
  * TODO: Fix flakiness of the test suite
  */
-@Ignore("Flaky test suite, fix asap")
+//@Ignore("Flaky test suite, fix asap")
 public class CoordinatorTests extends ESTestCase {
 
     private final List<NodeEnvironment> nodeEnvironments = new ArrayList<>();
@@ -176,6 +177,8 @@ public class CoordinatorTests extends ESTestCase {
         resetPortCounter();
     }
 
+    @TestLogging("org.elasticsearch.discovery:OFF,org.elasticsearch.cluster.coordination:DEBUG")
+    @Test
     // check that runRandomly leads to reproducible results
     public void testRepeatableTests() throws Exception {
         final Callable<Long> test = () -> {
